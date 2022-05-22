@@ -23,7 +23,6 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-
         try (Statement statement = conn.createStatement()) {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS users " +
                     "(id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), last_name VARCHAR(255), age INT)");
@@ -33,7 +32,6 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-
         try (Statement statement = conn.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS users");
         } catch (SQLException e) {
@@ -42,7 +40,6 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-
         try (PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users (name, last_name, age) VALUES (?, ?, ?)")) {
             conn.setAutoCommit(false);
             pstmt.setString(1, name);
@@ -66,9 +63,7 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
-    // Удаление User из таблицы ( по id )
     public void removeUserById(long id) {
-
         try (PreparedStatement pstmt = conn.prepareStatement("DELETE FROM users WHERE id = ?")) {
             conn.setAutoCommit(false);
             pstmt.setLong(1, id);
@@ -92,7 +87,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-
         try (ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM users")) {
             while(resultSet.next()) {
                 User user = new User(resultSet.getString("name"),
@@ -108,7 +102,6 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-
         try (Statement statement = conn.createStatement()) {
             conn.setAutoCommit(false);
             statement.executeUpdate("TRUNCATE TABLE users");
